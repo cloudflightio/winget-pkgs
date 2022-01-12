@@ -1,13 +1,28 @@
-# Created using wingetcreate 0.4.4.1
-# yaml-language-server: $schema=https://aka.ms/winget-manifest.defaultLocale.1.0.0.schema.json
+# Created with YamlCreate.ps1 v2.0.4 $debug=NVS0.5-1-19041-1320
+# yaml-language-server: $schema=https://aka.ms/winget-manifest.locale.1.1.0.schema.json
 
 PackageIdentifier: Cloudflight.DockerInWSL
 PackageVersion: 1.0.0.0
 PackageLocale: en-US
 Publisher: Cloudflight Austria GmbH
+PublisherUrl: https://cloudflight.io
+PublisherSupportUrl: https://github.com/cloudflightio/dockerinwsl
+# PrivacyUrl: 
+Author: Cloudflight Austria GmbH
 PackageName: DockerInWSL
+PackageUrl: https://github.com/cloudflightio/dockerinwsl
 License: Apache2
+# LicenseUrl: 
+Copyright: Copyright (c) Cloudflight Austria GmbH
+# CopyrightUrl: 
 ShortDescription: Using WSL2 to run a docker on windows (using official dind alpine image)
-ManifestType: defaultLocale
-ManifestVersion: 1.0.0
-
+# Description: 
+Moniker: dockerinwsl
+Tags:
+- docker
+- wsl2
+# Agreements: 
+# ReleaseNotes: 
+# ReleaseNotesUrl: 
+ManifestType: locale
+ManifestVersion: 1.1.0

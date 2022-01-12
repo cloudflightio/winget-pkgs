@@ -1,15 +1,21 @@
-# Created using wingetcreate 0.4.4.1
-# yaml-language-server: $schema=https://aka.ms/winget-manifest.installer.1.0.0.schema.json
+# Created with YamlCreate.ps1 v2.0.4 $debug=NVS0.5-1-19041-1320
+# yaml-language-server: $schema=https://aka.ms/winget-manifest.installer.1.1.0.schema.json
 
 PackageIdentifier: Cloudflight.DockerInWSL
 PackageVersion: 1.0.0.0
+InstallerLocale: en-US
+MinimumOSVersion: 10.0.0.0
+InstallerType: msi
+Scope: user
+InstallerSwitches:
+  Silent: /qn
+  SilentWithProgress: /qb
+  Custom: /norestart
+UpgradeBehavior: install
 Installers:
-- InstallerLocale: en-US
-  Architecture: x64
-  InstallerType: msi
-  InstallerUrl: https://github.com/cloudflightio/dockerinwsl/releases/download/v0.0.1/DockerInWSL.msi
-  InstallerSha256: E31AD8EC8F38B61F37BC4EE83D24FFE7E2EA14425B6D0D8A8C4CABE934C37EF7
+- Architecture: x64
+  InstallerUrl: https://github.com/cloudflightio/dockerinwsl/releases/download/v1.0.0/DockerInWSL.msi
+  InstallerSha256: 30144F947FE1F9E9F169636449B151D66BE3390EF6441034EE6BD13F76B1F9F7
   ProductCode: '{5B14896C-A16E-4F22-AE96-257772DE655A}'
 ManifestType: installer
-ManifestVersion: 1.0.0
-
+ManifestVersion: 1.1.0
