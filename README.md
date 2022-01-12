@@ -6,13 +6,16 @@ Replicates the layout of [Microsoft's community repository](https://github.com/m
 
 ## Usage
 
-Tell winget about this repo
+WinGet v1 is using a new REST API and the old Sources.msix Catalog-Format is quite complicated, therefore we are using a local approach for now.
 
-```bash
-winget sources add https://github.com/cloudflightio/winget-pkgs
+First, you have to enable local WinGet Repositories. Open a new Powershell windows "As Administrator" and type the following command:
+
+```bat
+winget settings --enable LocalManifestFiles
 ``` 
 
-Install packages like you would any other
-```bash
-winget install Cloudflight/DockerInWSL
+After that you can install local manifest files. Clone or download this Repo, unpack and manually install a package like this:
+
+```bat
+winget install -m .\manifests\c\Cloudflight\DockerInWSL\1.0.0.0\
 ```
