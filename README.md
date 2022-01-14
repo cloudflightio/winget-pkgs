@@ -17,5 +17,5 @@ winget settings --enable LocalManifestFiles
 After that you can install local manifest files. Clone or download this Repo, unpack and manually install a package like this:
 
 ```bat
-winget install -m .\manifests\c\Cloudflight\DockerInWSL\1.0.0.0\
+winget install -m .\manifests\c\Cloudflight\DockerInWSL\1.0.1.0\
 ```
