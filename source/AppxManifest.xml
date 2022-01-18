@@ -7,7 +7,7 @@
   <Identity Name="Cloudflight.Winget.Source"
             ProcessorArchitecture="neutral"
             Publisher="CN=Cloudflight Operate Code Signing (TEST), O=Cloudflight Austria GmbH, C=AT"
-            Version="1.0.1.0" />
+            Version="1.0.3.0" />
 
   <Properties>
     <DisplayName>Windows Package Manager Source (winget)</DisplayName>
