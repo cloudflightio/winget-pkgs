@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
+         xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
+         xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3"
+         IgnorableNamespaces="uap uap3">
+
+  <Identity Name="Cloudflight.Winget.Source"
+            ProcessorArchitecture="neutral"
+            Publisher="CN=Cloudflight Operate Code Signing (TEST), O=Cloudflight Austria GmbH, C=AT"
+            Version="1.0.1.0" />
+
+  <Properties>
+    <DisplayName>Windows Package Manager Source (winget)</DisplayName>
+    <PublisherDisplayName>Cloudflight Austria GmbH</PublisherDisplayName>
+    <Logo>Images\logo.jpg</Logo>
+  </Properties>
+
+  <Dependencies>
+    <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.16299.0" MaxVersionTested="10.0.18287.0" />
+  </Dependencies>
+
+  <Applications>
+    <Application Id="SourceData">
+      <uap:VisualElements DisplayName="Windows Package Manager Source (winget)"
+                        Square150x150Logo="Assets\AppPackageStoreLogo.scale-150.png"
+                        Square44x44Logo="Assets\AppPackageStoreLogo.scale-100.png"
+                        Description="Windows Package Manager Source (winget)"
+                        BackgroundColor="#0078d7"
+                        AppListEntry="none" />
+      <Extensions>
+        <uap3:Extension Category="windows.appExtension">
+          <uap3:AppExtension Name="com.microsoft.winget.source"
+                             Id="IndexDB"
+                             DisplayName="Windows Package Manager Source (winget)"
+                             Description="Windows Package Manager Source (winget)"
+                             PublicFolder="Public">
+          </uap3:AppExtension>
+        </uap3:Extension>
+      </Extensions>
+    </Application>
+  </Applications>
+
+  <Resources>
+    <Resource Language="und" />
+  </Resources>
+
+</Package>
