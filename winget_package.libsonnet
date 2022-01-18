@@ -45,7 +45,7 @@
       ManifestVersion: '1.1.0',
   },
 
-  Root(product, version):: {
+  Version(product, version):: {
       PackageIdentifier: product.PackageIdentifier,
       PackageVersion: version.PackageVersion,
       DefaultLocale: product.PackageLocale,
@@ -53,13 +53,20 @@
       ManifestVersion: '1.1.0',
   },
 
+  Merged(product, version):: 
+    $.Installer(product, version) + $.Locale(product, version) + $.Version(product, version) + {
+    ManifestType: 'merged'
+  },
+
   Release(product, version)::
     local packageIdentifierParts = std.split(product.PackageIdentifier, '.');
     local basePath = std.asciiLower(product.PackageIdentifier[0]) + '/' + packageIdentifierParts[0] + '/' + packageIdentifierParts[1];
+    local packageIdentifierHash = std.substr(std.md5(product.PackageIdentifier),0,4);
     {
         [basePath + '/' + version.PackageVersion + '/' + product.PackageIdentifier + '.installer.json']: $.Installer(product, version),
         [basePath + '/' + version.PackageVersion + '/' + product.PackageIdentifier + '.locale.en-US.json']: $.Locale(product, version),
-        [basePath + '/' + version.PackageVersion + '/' + product.PackageIdentifier + '.json']: $.Root(product, version)
+        [basePath + '/' + version.PackageVersion + '/' + product.PackageIdentifier + '.json']: $.Version(product, version),
+        [basePath + '/' + version.PackageVersion + '/' + packageIdentifierHash + "-" + product.PackageIdentifier + '.json']: $.Merged(product, version),
     }
   
 }
