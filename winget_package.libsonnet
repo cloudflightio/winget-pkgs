@@ -1,0 +1,65 @@
+{
+  Installer(product, version):: {
+    InstallerLocale: 'en-US',
+    MinimumOSVersion: '10.0.0.0',
+    InstallerType: 'msi',
+    Scope: 'user',
+    InstallerSwitches: {
+      Silent: '/qn',
+      SilentWithProgress: '/qb',
+      Custom: '/norestart',
+    },
+    UpgradeBehavior: 'install',
+  } + {
+      PackageIdentifier: product.PackageIdentifier,
+      PackageVersion: version.PackageVersion,
+      InstallerLocale: product.PackageLocale,
+      Installers: [
+        {
+          Architecture: 'x64',
+          InstallerUrl: version.InstallerUrl,
+          InstallerSha256: version.InstallerSha256,
+          ProductCode: version.ProductCode,
+        },
+      ],
+      ManifestType: 'installer',
+      ManifestVersion: '1.1.0',
+  },
+
+  Locale(product, version):: {
+      PackageIdentifier: product.PackageIdentifier,
+      PackageVersion: version.PackageVersion,
+      PackageLocale: product.PackageLocale,
+      Publisher: product.Publisher,
+      PublisherUrl: product.PublisherUrl,
+      PublisherSupportUrl: product.PublisherSupportUrl,
+      Author: product.Author,
+      PackageName: product.PackageName,
+      PackageUrl: product.PackageUrl,
+      License: product.License,
+      Copyright: product.Copyright ,
+      ShortDescription: product.ShortDescription,
+      Moniker: product.Moniker,
+      Tags: product.Tags,
+      ManifestType: 'defaultLocale',
+      ManifestVersion: '1.1.0',
+  },
+
+  Root(product, version):: {
+      PackageIdentifier: product.PackageIdentifier,
+      PackageVersion: version.PackageVersion,
+      DefaultLocale: product.PackageLocale,
+      ManifestType: 'version',
+      ManifestVersion: '1.1.0',
+  },
+
+  Release(product, version)::
+    local packageIdentifierParts = std.split(product.PackageIdentifier, '.');
+    local basePath = std.asciiLower(product.PackageIdentifier[0]) + '/' + packageIdentifierParts[0] + '/' + packageIdentifierParts[1];
+    {
+        [basePath + '/' + version.PackageVersion + '/' + product.PackageIdentifier + '.installer.json']: $.Installer(product, version),
+        [basePath + '/' + version.PackageVersion + '/' + product.PackageIdentifier + '.locale.en-US.json']: $.Locale(product, version),
+        [basePath + '/' + version.PackageVersion + '/' + product.PackageIdentifier + '.json']: $.Root(product, version)
+    }
+  
+}

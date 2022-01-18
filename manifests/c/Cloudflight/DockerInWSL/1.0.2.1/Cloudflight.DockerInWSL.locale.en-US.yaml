@@ -8,7 +8,7 @@ PackageIdentifier: Cloudflight.DockerInWSL
 PackageLocale: en-US
 PackageName: DockerInWSL
 PackageUrl: https://github.com/cloudflightio/dockerinwsl
-PackageVersion: 1.0.1.0
+PackageVersion: 1.0.2.1
 Publisher: Cloudflight Austria GmbH
 PublisherSupportUrl: https://github.com/cloudflightio/dockerinwsl
 PublisherUrl: https://cloudflight.io
