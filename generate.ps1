@@ -1,8 +1,10 @@
 
-$tmpPath = (Resolve-Path .tmp).Path
+$tmpPath = Join-Path -Path (Resolve-Path .tmp).Path -ChildPath .\manifests
 
-Get-ChildItem .\packages | % {
-    jsonnet -m $tmpPath -c .\packages\$_
+New-Item -Path $tmpPath -Force -ItemType Directory
+
+Get-ChildItem .\packages -Filter '*.jsonnet' | % {
+    jsonnet -m $tmpPath -c ".\packages\$($_.Name)"
 }
 
 Get-ChildItem .tmp -Recurse -Include '*.json' | % {
@@ -11,4 +13,4 @@ Get-ChildItem .tmp -Recurse -Include '*.json' | % {
     Remove-Item $_
 }
 
-Copy-Item -Path ".tmp\*" -Recurse -Force -Destination .\manifests
+Copy-Item -Path "$tmpPath\*" -Recurse -Force -Destination .\manifests

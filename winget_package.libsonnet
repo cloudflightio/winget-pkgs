@@ -67,6 +67,13 @@
         [basePath + '/' + version.PackageVersion + '/' + product.PackageIdentifier + '.locale.en-US.json']: $.Locale(product, version),
         [basePath + '/' + version.PackageVersion + '/' + product.PackageIdentifier + '.json']: $.Version(product, version),
         [basePath + '/' + version.PackageVersion + '/' + packageIdentifierHash + "-" + product.PackageIdentifier + '.json']: $.Merged(product, version),
-    }
+    },
+
+  Files(product, releases)::
+    std.foldl(function(x, y) x + y, 
+    [
+        $.Release(product, x) 
+        for x in releases
+    ], {})
   
 }
