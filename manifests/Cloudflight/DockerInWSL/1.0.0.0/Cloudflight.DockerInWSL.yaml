@@ -1,0 +1,5 @@
+DefaultLocale: en-US
+ManifestType: version
+ManifestVersion: 1.1.0
+PackageIdentifier: Cloudflight.DockerInWSL
+PackageVersion: 1.0.0.0
