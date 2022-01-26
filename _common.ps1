@@ -99,3 +99,25 @@ function Get-ProductReleases {
         }
     })
 }
+
+function Check-LastCommand {
+    param (
+        $Msg = "ERROR!"
+    )
+    if ($lastexitcode -ne 0)
+    {
+        throw $Msg
+    }
+}
+
+function Invoke-Git {
+    param(
+        [Parameter(
+            ValueFromRemainingArguments=$true
+        )][string[]]
+        $listArgs
+    )
+
+    & "git" @listArgs
+    Check-LastCommand "git call failed! $listArgs"
+}

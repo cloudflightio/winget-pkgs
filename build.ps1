@@ -1,24 +1,9 @@
-function Check-LastCommand {
-    param (
-        $Msg = "ERROR!"
-    )
-    if ($lastexitcode -ne 0)
-    {
-        throw $Msg
-    }
-}
+. $PSScriptRoot\_common.ps1
 
-function Invoke-Git {
-    param(
-        [Parameter(
-            ValueFromRemainingArguments=$true
-        )][string[]]
-        $listArgs
-    )
-
-    & "git" @listArgs
-    Check-LastCommand "git call failed! $listArgs"
-}
+$ValidationErrors = @()
+if (-not (Test-Path env:PFX_THUMBPRINT)) { $ValidationErrors += @("PFX_THUMBPRINT envvar not set") }
+if (-not (Test-Path env:PFX_PASSPHRASE)) { $ValidationErrors += @("PFX_PASSPHRASE envvar not set") }
+if ($ValidationErrors.Count -gt 0) { throw "Validation Failed!`n" + ($ValidationErrors -join "`n") }
 
 $patchVersion = [int](git rev-list --count gh-pages main)
 $version = "1.0.$patchVersion.0"
