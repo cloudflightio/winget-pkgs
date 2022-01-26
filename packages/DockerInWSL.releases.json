@@ -22,5 +22,17 @@
         "InstallerUrl":  "https://github.com/cloudflightio/dockerinwsl/releases/download/v1.1.38/DockerInWSL_1.1.38.220125.msi",
         "InstallerSha256":  "72944F640DC14EE9150E600F33B3DF9B914353E18857A30FD9921FF83D8AB30E",
         "ProductCode":  "{61842B41-5F12-4B03-98A5-68995238A66F}"
+    },
+    {
+        "PackageVersion":  "1.1.41.220125",
+        "InstallerUrl":  "https://github.com/cloudflightio/dockerinwsl/releases/download/v1.1.41/DockerInWSL_1.1.41.220125.msi",
+        "InstallerSha256":  "DAAC6DA09D01845C7EFE57DE353A871567F25D76157F7A8731CF73516D50D8BE",
+        "ProductCode":  "{759BC33C-7C61-4CF4-ADC1-402D3752E332}"
+    },
+    {
+        "PackageVersion":  "1.1.47.220126",
+        "InstallerUrl":  "https://github.com/cloudflightio/dockerinwsl/releases/download/v1.1.47/DockerInWSL_1.1.47.220126.msi",
+        "InstallerSha256":  "C4434B1F1AA683EF8A80758C3A1461294B3E1D6D16BBC107AFA1939C5BEE7100",
+        "ProductCode":  "{9AD34834-EBBC-428B-9608-D222E99951F3}"
     }
 ]
