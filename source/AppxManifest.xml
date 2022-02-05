@@ -6,12 +6,12 @@
 
   <Identity Name="Cloudflight.Winget.Source"
             ProcessorArchitecture="neutral"
-            Publisher="CN=Cloudflight Operate Code Signing (TEST), O=Cloudflight Austria GmbH, C=AT"
-            Version="1.0.3.0" />
+            Publisher="C=DE, ST=Bavaria, L=Munich, STREET=Kaiser-Ludwig-Platz 5, O=Cloudflight GmbH, CN=Cloudflight GmbH"
+            Version="1.0.53.0" />
 
   <Properties>
     <DisplayName>Windows Package Manager Source (winget)</DisplayName>
-    <PublisherDisplayName>Cloudflight Austria GmbH</PublisherDisplayName>
+    <PublisherDisplayName>Cloudflight GmbH</PublisherDisplayName>
     <Logo>Images\logo.jpg</Logo>
   </Properties>
 
