@@ -10,6 +10,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - uses: zendesk/setup-jsonnet@v9
 
       - name: build
         env:
@@ -27,6 +31,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          
+      - uses: zendesk/setup-jsonnet@v9
 
       - name: build
         env:
