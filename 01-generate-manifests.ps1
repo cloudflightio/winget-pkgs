@@ -13,4 +13,5 @@ Get-ChildItem .tmp -Recurse -Include '*.json' | % {
     Remove-Item $_
 }
 
-Copy-Item -Path "$tmpPath\*" -Recurse -Force -Destination .\manifests
+Remove-Item -Path .\manifests -Recurse -Force -ErrorAction SilentlyContinue
+Copy-Item -Path "$tmpPath\" -Recurse -Force -Destination .\manifests
