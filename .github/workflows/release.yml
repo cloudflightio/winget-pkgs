@@ -5,15 +5,26 @@ on:
     branches: [ main ]
 
 jobs:
-  test:
+  build:
     runs-on: windows-latest
 
     steps:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
+      
+      - run: echo "$($pwd.path)\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
 
-      - uses: zendesk/setup-jsonnet@v9
+      - name: Install and cache PowerShell modules
+        uses: potatoqualitee/psmodulecache@v4
+        with:
+          modules-to-cache: powershell-yaml
+
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+          cache: 'pip'
+      - run: pip install -r requirements.txt
 
       - name: build
         env:
@@ -21,8 +32,35 @@ jobs:
           PFX_THUMBPRINT: ${{ secrets.PFX_THUMBPRINT }}
         run: ./build.ps1 -NoGit
       
+      - uses: actions/upload-artifact@v2
+        with:
+          name: catalog
+          path: |
+            ./manifests/**/*.yaml
+            ./source.msix
+
+  test:
+    needs: build
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: catalog
+
+      - name: Install winget
+        run: |
+          $ErrorActionPreference = 'Stop'
+          iwr $(iwr 'https://store.rg-adguard.net/api/GetFiles' -Method 'POST' -ContentType 'application/x-www-form-urlencoded' -Body 'type=PackageFamilyName&url=Microsoft.VCLibs.140.00_8wekyb3d8bbwe&ring=RP&lang=en-US' -UseBasicParsing | Foreach-Object Links | Where-Object outerHTML -match 'Microsoft.VCLibs.140.00_.+_x64__8wekyb3d8bbwe.appx' | Foreach-Object href) -OutFile $env:TEMP\vclibs.appx
+          iwr $(iwr 'https://store.rg-adguard.net/api/GetFiles' -Method 'POST' -ContentType 'application/x-www-form-urlencoded' -Body 'type=PackageFamilyName&url=Microsoft.VCLibs.140.00.UWPDesktop_8wekyb3d8bbwe&ring=RP&lang=en-US' -UseBasicParsing | Foreach-Object Links | Where-Object outerHTML -match 'Microsoft.VCLibs.140.00.UWPDesktop_.+_x64__8wekyb3d8bbwe.appx' | Foreach-Object href) -OutFile $env:TEMP\vclibsuwp.appx
+          iwr 'https://github.com/microsoft/winget-cli/releases/download/v1.1.12653/Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle' -OutFile $env:TEMP\winget.msixbundle
+          iwr 'https://github.com/microsoft/winget-cli/releases/download/v1.1.12653/9c0fe2ce7f8e410eb4a8f417de74517e_License1.xml' -Outfile $env:TEMP\winget.license
+          Add-AppxProvisionedPackage -Online -PackagePath $env:TEMP\winget.msixbundle -LicensePath $env:TEMP\winget.license -DependencyPackagePath @("$env:TEMP\vclibs.appx", "$env:TEMP\vclibsuwp.appx")
+      
       - name: validate
         run: ./validate.ps1
+
   release:
     needs: test
     runs-on: windows-latest
@@ -32,14 +70,17 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
+          ref: gh-pages
           fetch-depth: 0
-          
-      - uses: zendesk/setup-jsonnet@v9
+      
+      - uses: actions/download-artifact@v2
+        with:
+          name: catalog
 
-      - name: build
+      - name: sign
         env:
           AZURE_SIGN_CLIENT_SECRET: ${{ secrets.AZURE_SIGN_CLIENT_SECRET }}
-        run: ./build.ps1 -Release
+        run: ./04-sign-index-package-release.ps1
 
       - name: pull-request
         uses: repo-sync/pull-request@v2
