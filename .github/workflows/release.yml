@@ -138,7 +138,7 @@ jobs:
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: "${{ env.GIT_BRANCH }}"
+          branch: "gh-pages"
 
       - name: Create pull-request
         uses: repo-sync/pull-request@v2
