@@ -22,6 +22,8 @@ if(-not (Test-Path -Path "version.txt")) {
 
 $version = (Get-Content "version.txt").Trim()
 
+"Version: $version" | Out-Host
+
 Remove-Item -Recurse -Force -Path .\.tmp\ -ErrorAction SilentlyContinue
 New-Item -Path ".tmp" -Force -ItemType Directory | Out-Null
 Copy-Item -Recurse -Path .\source -Destination .\.tmp\source
