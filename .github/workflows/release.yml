@@ -125,7 +125,7 @@ jobs:
       
       - name: Create new update branch
         run: |
-          version="$(cat version.txt | tr -d '\n')"
+          version="$(cat version.txt | tr -d '\r\n')"
           git checkout -b "update-$version"
 
       - name: Commit changes
