@@ -49,7 +49,7 @@ if($Release) {
 .\01-generate-manifests.ps1
 Check-LastCommand "generate failed"
 
-py .\02-build-index-db.py
+python .\02-build-index-db.py
 Check-LastCommand "index-db build failed"
 
 .\03-build-index-package.ps1
