@@ -8,7 +8,7 @@ import sqlite3
 from sqlite3 import Error
 from subprocess import check_output
 
-db_path = "source/Public/index.db"
+db_path = ".tmp/source/Public/index.db"
 
 def get_id(con, cursor, table, field, value, force_new=False):
     cursor.execute('SELECT rowid FROM {} WHERE {} = "{}";'.format(table, field, value))

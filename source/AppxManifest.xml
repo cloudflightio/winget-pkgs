@@ -6,8 +6,8 @@
 
   <Identity Name="Cloudflight.Winget.Source"
             ProcessorArchitecture="neutral"
-            Publisher="C=DE, ST=Bavaria, L=Munich, STREET=Kaiser-Ludwig-Platz 5, O=Cloudflight GmbH, CN=Cloudflight GmbH"
-            Version="1.0.53.0" />
+            Publisher="CN=SetAtBuildTime"
+            Version="0.0.0.0" />
 
   <Properties>
     <DisplayName>Windows Package Manager Source (winget)</DisplayName>
