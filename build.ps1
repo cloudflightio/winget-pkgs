@@ -31,7 +31,8 @@ if(-not $NoGit) {
     Remove-Item -Force -Path .\source.msix -ErrorAction SilentlyContinue
 }
 
-Remove-Item -Recurse -Force -Path .\.tmp\
+Remove-Item -Recurse -Force -Path .\.tmp\ -ErrorAction SilentlyContinue
+New-Item -Path ".tmp" -Force -ItemType Directory | Out-Null
 Copy-Item -Recurse -Path .\source -Destination .\.tmp\source
 
 function Set-ManifestAttribute($AttributeName, $Value) {
