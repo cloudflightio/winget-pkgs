@@ -122,11 +122,6 @@ jobs:
       - uses: actions/download-artifact@v2
         with:
           name: catalog-release
-      
-      - name: Create new update branch
-        run: |
-          version="$(cat version.txt | tr -d '\r\n')"
-          git checkout -b "update-$version"
 
       - name: Commit changes
         run: |
@@ -139,12 +134,3 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: "gh-pages"
-
-      - name: Create pull-request
-        uses: repo-sync/pull-request@v2
-        with:
-          destination_branch: "gh-pages"
-          pr_title: "${{ github.ref_name }}"
-          pr_body: ":rocket: *Auto-Release*"
-          pr_draft: true
-          github_token: ${{ secrets.GITHUB_TOKEN }}
