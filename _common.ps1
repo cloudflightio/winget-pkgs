@@ -78,25 +78,29 @@ function Get-MsiInfo {
 
 function Get-ProductReleases {
     param (
-        [Parameter(Position = 0, Mandatory = $true)]$Repo
+        [Parameter(Position = 0, Mandatory = $true)]$Repo,
+        [Switch]$WithPrerelease
     )
 
-    @(Get-GithubReleases -Repo $Repo | ForEach-Object {
-        [pscustomobject]@{
-            Release = $_
-            Assets = (Get-GithubAssets -Repo $Repo -ReleaseId $_.id | 
-                Where-Object { $_.name -like "*.msi" } |
-                ForEach-Object {
-                    $msi = (Get-MsiInfo -Url $_.browser_download_url)
-                    [pscustomobject]@{
-                        PackageVersionObject = [System.Version]$msi.Version
-                        PackageVersion = $msi.Version
-                        InstallerUrl = $_.browser_download_url
-                        InstallerSha256 = $msi.Hashsum
-                        ProductCode = $msi.ProductCode
-                    }
-                })
-        }
+    @(
+        Get-GithubReleases -Repo $Repo | 
+        Where-Object { (-not $_.prerelease) -or ($_.prerelease -eq $WithPrerelease) } | 
+        ForEach-Object {
+            [pscustomobject]@{
+                Release = $_
+                Assets = (Get-GithubAssets -Repo $Repo -ReleaseId $_.id | 
+                    Where-Object { $_.name -like "*.msi" } |
+                    ForEach-Object {
+                        $msi = (Get-MsiInfo -Url $_.browser_download_url)
+                        [pscustomobject]@{
+                            PackageVersionObject = [System.Version]$msi.Version
+                            PackageVersion = $msi.Version
+                            InstallerUrl = $_.browser_download_url
+                            InstallerSha256 = $msi.Hashsum
+                            ProductCode = $msi.ProductCode
+                        }
+                    })
+            }
     })
 }
 

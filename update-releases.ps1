@@ -1,7 +1,7 @@
 . $PSScriptRoot\_common.ps1
 
 Get-ChildItem -Path .\packages -Filter "*.product.json" | ForEach-Object {
-    $json_in = Get-Content -Path ".\packages\$_" | ConvertFrom-Json
+    $json_in = Get-Content -Path "$_" | ConvertFrom-Json
 
     $repo = $json_in.PackageUrl -replace "https://github.com/",""
     $name = ($_.BaseName -replace '.product','')
