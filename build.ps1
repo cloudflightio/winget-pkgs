@@ -1,6 +1,5 @@
 param(
-    [Switch]$Release,
-    [Switch]$NoGit
+    [Switch]$Release
 )
 
 . $PSScriptRoot\_common.ps1
@@ -12,24 +11,16 @@ if(-not $Release) {
 }
 if ($ValidationErrors.Count -gt 0) { throw "Validation Failed!`n" + ($ValidationErrors -join "`n") }
 
-$patchVersion = [int](git rev-list --count gh-pages main)
-$version = "1.1.$patchVersion.0"
+$majorVersion = "1"
+$buildVersion = "0"
 
-if((git diff --stat) -and -not $NoGit){
-    throw "Working dir is dirty!"
+if(-not (Test-Path -Path "version.txt")) {
+    $t = [UInt32]((New-TimeSpan -Start (Get-Date -Date "01/01/1970") -End (Get-Date)).TotalSeconds)
+    $version = "$majorVersion.$($t -shr 16).$($t -band 0x0000FFFF).$buildVersion"
+    $version | Out-File -FilePath "version.txt"
 }
 
-if(-not $NoGit) {
-    Invoke-Git checkout gh-pages
-    Invoke-Git checkout -b "update-$version"
-
-    Invoke-Git checkout main *.ps1 *.py *.sql *.libsonnet *.pfx
-    Invoke-Git checkout main packages/ source/
-    Invoke-Git restore --staged *
-
-    Remove-Item -Recurse -Force -Path .\manifests -ErrorAction SilentlyContinue
-    Remove-Item -Force -Path .\source.msix -ErrorAction SilentlyContinue
-}
+$version = (Get-Content "version.txt").Trim()
 
 Remove-Item -Recurse -Force -Path .\.tmp\ -ErrorAction SilentlyContinue
 New-Item -Path ".tmp" -Force -ItemType Directory | Out-Null
@@ -58,11 +49,4 @@ if($Release) {
     .\04-sign-index-package-release.ps1
 } else {
     .\04-sign-index-package-test.ps1
-}
-
-if(-not $NoGit) {
-    Invoke-Git add source.msix
-    Invoke-Git add manifests/
-    Invoke-Git commit -m "new index published"
-    Invoke-Git reset --hard
 }

@@ -38,6 +38,7 @@ jobs:
           path: |
             ./manifests/**/*.yaml
             ./source.msix
+            ./version.txt
 
   test:
     needs: build
@@ -112,16 +113,19 @@ jobs:
           ref: "gh-pages"
           fetch-depth: 0
 
-      - name: Create new update branch
+      - name: Set git config
         run: |
-          $patchVersion = [int](git rev-list --count gh-pages main)
-          $version = "1.1.$patchVersion.0"
-
-          git checkout -b "update-$version"
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
 
       - uses: actions/download-artifact@v2
         with:
           name: catalog-release
+      
+      - name: Create new update branch
+        run: |
+          $version = (Get-Content "version.txt").trim()
+          git checkout -b "update-$version"
 
       - name: Commit changes
         run: |

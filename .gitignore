@@ -3,3 +3,4 @@
 *.secret
 *.msix
 manifests/
+version.txt
