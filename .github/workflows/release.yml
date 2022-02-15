@@ -1,0 +1,43 @@
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: build
+        env:
+          PFX_PASSPHRASE: ${{ secrets.PFX_PASSPHRASE }}
+          PFX_THUMBPRINT: ${{ secrets.PFX_THUMBPRINT }}
+        run: ./build.ps1 -NoGit
+      
+      - name: validate
+        run: ./validate.ps1
+  release:
+    needs: test
+    runs-on: windows-latest
+
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: build
+        env:
+          AZURE_SIGN_CLIENT_SECRET: ${{ secrets.AZURE_SIGN_CLIENT_SECRET }}
+        run: ./build.ps1 -Release
+
+      - name: pull-request
+        uses: repo-sync/pull-request@v2
+        with:
+          destination_branch: "gh-pages"
+          pr_title: "${{ github.ref_name }}"
+          pr_body: ":rocket: *Auto-Release*"
+          pr_draft: true
+          github_token: ${{ secrets.GITHUB_TOKEN }}

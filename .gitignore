@@ -1,3 +1,5 @@
 .tmp
 *.db
 *.secret
+*.msix
+manifests/

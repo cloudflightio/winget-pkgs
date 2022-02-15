@@ -1,7 +1,9 @@
-. $PSScriptRoot\_common.ps1
+param(
+    [Switch]$Release,
+    [Switch]$NoGit
+)
 
-$NoGit = Test-Path env:NO_GIT
-$Release = Test-Path env:RELEASE
+. $PSScriptRoot\_common.ps1
 
 $ValidationErrors = @()
 if(-not $Release) {
