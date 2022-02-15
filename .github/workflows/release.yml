@@ -104,7 +104,7 @@ jobs:
 
   release:
     needs: build-release
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     if: github.ref == 'refs/heads/main'
 
@@ -125,7 +125,7 @@ jobs:
       
       - name: Create new update branch
         run: |
-          $version = (Get-Content "version.txt").trim()
+          version="$(cat version.txt | tr -d '\n')"
           git checkout -b "update-$version"
 
       - name: Commit changes
