@@ -13,7 +13,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: zendesk/setup-jsonnet@v9
+      - uses: zendesk/setup-jsonnet@v7
 
       - name: build
         env:
@@ -34,7 +34,7 @@ jobs:
         with:
           fetch-depth: 0
           
-      - uses: zendesk/setup-jsonnet@v9
+      - uses: zendesk/setup-jsonnet@v7
 
       - name: build
         env:
