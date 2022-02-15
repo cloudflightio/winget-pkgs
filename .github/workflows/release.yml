@@ -20,6 +20,12 @@ jobs:
         with:
           modules-to-cache: powershell-yaml
 
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+          cache: 'pip'
+      - run: pip install -r requirements.txt
+
       - name: build
         env:
           PFX_PASSPHRASE: ${{ secrets.PFX_PASSPHRASE }}
@@ -45,6 +51,12 @@ jobs:
         uses: potatoqualitee/psmodulecache@v4
         with:
           modules-to-cache: powershell-yaml
+
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+          cache: 'pip'
+      - run: pip install -r requirements.txt
 
       - name: build
         env:
