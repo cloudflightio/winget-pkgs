@@ -72,6 +72,19 @@ jobs:
         with:
           fetch-depth: 0
 
+      - run: echo "$($pwd.path)\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+
+      - name: Install and cache PowerShell modules
+        uses: potatoqualitee/psmodulecache@v4
+        with:
+          modules-to-cache: powershell-yaml
+
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+          cache: 'pip'
+      - run: pip install -r requirements.txt
+
       - name: install AzureSignTool
         run: dotnet tool install --global AzureSignTool --version 3.0.0
 
