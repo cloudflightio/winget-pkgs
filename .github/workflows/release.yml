@@ -61,7 +61,7 @@ jobs:
       - name: validate
         run: ./validate.ps1
 
-  release:
+  build-release:
     needs: test
     runs-on: windows-latest
 
@@ -91,9 +91,51 @@ jobs:
       - name: build and sign
         env:
           AZURE_SIGN_CLIENT_SECRET: ${{ secrets.AZURE_SIGN_CLIENT_SECRET }}
-        run: ./build.ps1 -Release
+        run: ./build.ps1 -NoGit -Release
 
-      - name: pull-request
+      - uses: actions/upload-artifact@v2
+        with:
+          name: catalog-release
+          path: |
+            ./manifests/**/*.yaml
+            ./source.msix
+
+  release:
+    needs: build-release
+    runs-on: windows-latest
+
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: "gh-pages"
+          fetch-depth: 0
+
+      - name: Create new update branch
+        run: |
+          $patchVersion = [int](git rev-list --count gh-pages main)
+          $version = "1.1.$patchVersion.0"
+
+          git checkout -b "update-$version"
+
+      - uses: actions/download-artifact@v2
+        with:
+          name: catalog-release
+
+      - name: Commit changes
+        run: |
+          git add source.msix
+          git add manifests/
+          git commit -m "new index published"
+
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: "${{ env.GIT_BRANCH }}"
+
+      - name: Create pull-request
         uses: repo-sync/pull-request@v2
         with:
           destination_branch: "gh-pages"
