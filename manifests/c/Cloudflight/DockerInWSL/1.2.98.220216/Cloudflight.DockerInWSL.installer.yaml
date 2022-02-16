@@ -1,0 +1,18 @@
+InstallerLocale: en-US
+InstallerSwitches:
+  Custom: /norestart
+  Silent: /qn
+  SilentWithProgress: /qb
+InstallerType: msi
+Installers:
+- Architecture: x64
+  InstallerSha256: 83074C5E30CB8F08B61D5A64A8CD62934E83144AABF4FCECDFAF0FA4FEF27F89
+  InstallerUrl: https://github.com/cloudflightio/dockerinwsl/releases/download/v1.2.98/DockerInWSL_1.2.98.220216.msi
+  ProductCode: '{4504D672-53B5-437D-861A-08A3496E9EF4}'
+ManifestType: installer
+ManifestVersion: 1.1.0
+MinimumOSVersion: 10.0.0.0
+PackageIdentifier: Cloudflight.DockerInWSL
+PackageVersion: 1.2.98.220216
+Scope: user
+UpgradeBehavior: install
