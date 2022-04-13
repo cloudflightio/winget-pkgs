@@ -1,0 +1,17 @@
+InstallModes:
+- silent
+- silentWithProgress
+InstallerLocale: en-US
+Installers:
+- Architecture: x64
+  InstallerSha256: 31AB2CE9F4CEEF5EE2EC2FF1A147EDBE109B428853AD4C68E264B8A04071F24B
+  InstallerType: wix
+  InstallerUrl: https://github.com/cloudflightio/dockerinwsl/releases/download/v1.2.101/DockerInWSL_1.2.101.220413.msi
+  ProductCode: '{4A2CAF87-E137-411D-904C-D75FA0A19D6D}'
+ManifestType: installer
+ManifestVersion: 1.1.0
+MinimumOSVersion: 10.0.0.0
+PackageIdentifier: Cloudflight.DockerInWSL
+PackageVersion: 1.2.101.220413
+Scope: user
+UpgradeBehavior: install
