@@ -1,12 +1,11 @@
+InstallModes:
+- silent
+- silentWithProgress
 InstallerLocale: en-US
-InstallerSwitches:
-  Custom: /norestart
-  Silent: /qn
-  SilentWithProgress: /qb
-InstallerType: msi
 Installers:
 - Architecture: x64
   InstallerSha256: 72944F640DC14EE9150E600F33B3DF9B914353E18857A30FD9921FF83D8AB30E
+  InstallerType: wix
   InstallerUrl: https://github.com/cloudflightio/dockerinwsl/releases/download/v1.1.38/DockerInWSL_1.1.38.220125.msi
   ProductCode: '{61842B41-5F12-4B03-98A5-68995238A66F}'
 ManifestType: installer

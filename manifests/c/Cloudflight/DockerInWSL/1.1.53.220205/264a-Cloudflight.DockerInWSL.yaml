@@ -1,15 +1,14 @@
 Author: Cloudflight GmbH
 Copyright: Copyright (c) Cloudflight GmbH
 DefaultLocale: en-US
+InstallModes:
+- silent
+- silentWithProgress
 InstallerLocale: en-US
-InstallerSwitches:
-  Custom: /norestart
-  Silent: /qn
-  SilentWithProgress: /qb
-InstallerType: msi
 Installers:
 - Architecture: x64
   InstallerSha256: 9D4C20E538C62EF05965B15507B318C4EDB121EEA828AEFB25B8CF1FA145B2DF
+  InstallerType: wix
   InstallerUrl: https://github.com/cloudflightio/dockerinwsl/releases/download/v.1.1.53/DockerInWSL_1.1.53.220205.msi
   ProductCode: '{2EE22059-1ABF-433E-B69A-BB90DA36A0D6}'
 License: Apache2
