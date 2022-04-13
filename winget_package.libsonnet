@@ -1,29 +1,26 @@
 {
   Installer(product, version):: {
-    InstallerLocale: 'en-US',
     MinimumOSVersion: '10.0.0.0',
-    InstallerType: 'msi',
     Scope: 'user',
-    InstallerSwitches: {
-      Silent: '/qn',
-      SilentWithProgress: '/qb',
-      Custom: '/norestart',
-    },
+    InstallModes: [
+      'silent',
+      'silentWithProgress',
+    ],
     UpgradeBehavior: 'install',
-  } + {
-      PackageIdentifier: product.PackageIdentifier,
-      PackageVersion: version.PackageVersion,
-      InstallerLocale: product.PackageLocale,
-      Installers: [
-        {
-          Architecture: 'x64',
-          InstallerUrl: version.InstallerUrl,
-          InstallerSha256: version.InstallerSha256,
-          ProductCode: version.ProductCode,
-        },
-      ],
-      ManifestType: 'installer',
-      ManifestVersion: '1.1.0',
+    PackageIdentifier: product.PackageIdentifier,
+    PackageVersion: version.PackageVersion,
+    InstallerLocale: product.PackageLocale,
+    Installers: [
+      {
+        Architecture: 'x64',
+        InstallerType: 'wix',
+        InstallerUrl: version.InstallerUrl,
+        InstallerSha256: version.InstallerSha256,
+        ProductCode: version.ProductCode,
+      },
+    ],
+    ManifestType: 'installer',
+    ManifestVersion: '1.1.0',
   },
 
   Locale(product, version):: {
