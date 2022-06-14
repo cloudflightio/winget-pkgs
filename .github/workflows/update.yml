@@ -1,0 +1,33 @@
+name: Update
+on:
+  workflow_dispatch: {}
+  schedule:
+    - cron: '0 0 * * *'
+jobs:
+  update:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      
+      - run: echo "$($pwd.path)\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+
+      - name: Install and cache PowerShell modules
+        uses: potatoqualitee/psmodulecache@v4
+        with:
+          modules-to-cache: powershell-yaml
+
+      - name: update
+        run: ./update-releases.ps1
+      
+      - name: Commit push and pr
+        uses: golfzaptw/action-commit-push-pr
+        with:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          PREFIX_BRANCHES: 'update'
+          DEFAULT_BRANCHES: 'main'
+          COMMIT_MESSAGE: 'chore: update releases'
+          TITLE_PR: 'Chore: update releases'
+          BODY_PR: ''

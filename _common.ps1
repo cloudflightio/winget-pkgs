@@ -49,6 +49,7 @@ function Get-MsiInfo {
 
     $FileName = $urlHash + "-" + $Url.Split('/')[-1]
     $FilePath = ".tmp\$FileName"
+    New-Item -ItemType Directory -Path ".tmp" -ErrorAction SilentlyContinue
     if(-not (Test-Path -Path $FilePath)) {
         Start-BitsTransfer -Source $Url -Destination $FilePath
     }
