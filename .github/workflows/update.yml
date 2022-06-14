@@ -1,8 +1,6 @@
 name: Update
 on:
-  workflow_dispatch: {}
-  schedule:
-    - cron: '0 0 * * *'
+  workflow_dispatch:
 jobs:
   update:
     runs-on: windows-latest
@@ -13,6 +11,7 @@ jobs:
           fetch-depth: 0
       
       - run: echo "$($pwd.path)\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+      - run: echo "GIT_HASH=$($env:GITHUB_SHA.substring(0,8))" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 
       - name: Install and cache PowerShell modules
         uses: potatoqualitee/psmodulecache@v4
@@ -22,12 +21,10 @@ jobs:
       - name: update
         run: ./update-releases.ps1
       
-      - name: Commit push and pr
-        uses: golfzaptw/action-commit-push-pr
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v4
         with:
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-          PREFIX_BRANCHES: 'update'
-          DEFAULT_BRANCHES: 'main'
-          COMMIT_MESSAGE: 'chore: update releases'
-          TITLE_PR: 'Chore: update releases'
-          BODY_PR: ''
+          branch: 'update-${{env.GIT_HASH}}'
+          base: main
+          title: 'chore: update releases'
+          commit-message: 'chore: update releases'
