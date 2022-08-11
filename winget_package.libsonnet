@@ -1,7 +1,7 @@
 {
   Installer(product, version):: {
     MinimumOSVersion: '10.0.0.0',
-    Scope: 'user',
+    Scope: std.get(version, 'Scope', std.get(product, 'Scope', 'user')),
     InstallModes: [
       'silent',
       'silentWithProgress',
