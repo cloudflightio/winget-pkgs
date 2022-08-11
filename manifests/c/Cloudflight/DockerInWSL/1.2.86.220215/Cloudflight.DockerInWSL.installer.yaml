@@ -13,5 +13,5 @@ ManifestVersion: 1.1.0
 MinimumOSVersion: 10.0.0.0
 PackageIdentifier: Cloudflight.DockerInWSL
 PackageVersion: 1.2.86.220215
-Scope: user
+Scope: machine
 UpgradeBehavior: install
