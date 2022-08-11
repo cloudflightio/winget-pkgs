@@ -14,5 +14,6 @@
     "Tags": [
       "docker",
       "wsl2"
-    ]
+    ],
+    "Scope": "machine"
   }
