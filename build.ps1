@@ -33,11 +33,7 @@ function Set-ManifestAttribute($AttributeName, $Value) {
 }
 
 Set-ManifestAttribute -AttributeName "Version" -Value "$version"
-if($Release) {
-    Set-ManifestAttribute -AttributeName "Publisher" -Value "CN=Cloudflight GmbH, O=Cloudflight GmbH, STREET=Kaiser-Ludwig-Platz 5, L=Munich, S=Bavaria, C=DE, OID.1.3.6.1.4.1.311.60.2.1.1=Munich, OID.1.3.6.1.4.1.311.60.2.1.2=Bavaria, OID.1.3.6.1.4.1.311.60.2.1.3=DE, SERIALNUMBER=HRB 250832, OID.2.5.4.15=Private Organization"
-} else {
-    Set-ManifestAttribute -AttributeName "Publisher" -Value "CN=Cloudflight Operate Code Signing (TEST), O=Cloudflight Austria GmbH, C=AT"
-}
+Set-ManifestAttribute -AttributeName "Publisher" -Value "CN=Cloudflight GmbH, O=Cloudflight GmbH, STREET=Kaiser-Ludwig-Platz 5, L=Munich, S=Bavaria, C=DE, OID.1.3.6.1.4.1.311.60.2.1.1=Munich, OID.1.3.6.1.4.1.311.60.2.1.2=Bavaria, OID.1.3.6.1.4.1.311.60.2.1.3=DE, SERIALNUMBER=HRB 250832, OID.2.5.4.15=Private Organization"
 
 .\01-generate-manifests.ps1
 Check-LastCommand "generate failed"
