@@ -1,0 +1,32 @@
+Author: Cloudflight GmbH
+Copyright: Copyright (c) Cloudflight GmbH
+DefaultLocale: en-US
+InstallModes:
+- silent
+- silentWithProgress
+InstallerLocale: en-US
+Installers:
+- Architecture: x64
+  InstallerSha256: 046C29951D58BD3D1958099CD2FA37B2C0C2BADA6CD836D1CDC59E4C5F412768
+  InstallerType: wix
+  InstallerUrl: https://github.com/cloudflightio/dockerinwsl/releases/download/v1.4.137/DockerInWSL_1.4.137.230131.msi
+  ProductCode: '{977D4FE3-84A7-4D8C-A27E-E60689332862}'
+License: Apache2
+ManifestType: merged
+ManifestVersion: 1.1.0
+MinimumOSVersion: 10.0.0.0
+Moniker: dockerinwsl
+PackageIdentifier: Cloudflight.DockerInWSL
+PackageLocale: en-US
+PackageName: DockerInWSL
+PackageUrl: https://github.com/cloudflightio/dockerinwsl
+PackageVersion: 1.4.137.230131
+Publisher: Cloudflight GmbH
+PublisherSupportUrl: https://github.com/cloudflightio/dockerinwsl
+PublisherUrl: https://cloudflight.io
+Scope: machine
+ShortDescription: Using WSL2 to run a docker on windows (using official dind alpine image)
+Tags:
+- docker
+- wsl2
+UpgradeBehavior: install
