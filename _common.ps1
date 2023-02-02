@@ -41,7 +41,7 @@ function Get-MsiInfo {
     param (
         [Parameter(Position = 0, Mandatory = $true)]$Url
     )
-
+    try {
     $windowsInstaller = New-Object -ComObject WindowsInstaller.Installer
 
     $urlHashStream = [IO.MemoryStream]::new([byte[]][char[]]$Url)
@@ -66,9 +66,13 @@ function Get-MsiInfo {
         $hash.Add($name,$value)
     }
     $View.Close()
+    [System.GC]::Collect()
     
     $checksum = (Get-FileHash -Path $FilePath -Algorithm SHA256).Hash
-
+    } catch {
+        $_ | Format-List * -Force | Write-Output
+        throw $_
+    }
     return  [pscustomobject]@{
         Version = $hash.ProductVersion
         ProductCode = $hash.ProductCode
