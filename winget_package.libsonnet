@@ -7,20 +7,26 @@
       'silentWithProgress',
     ],
     UpgradeBehavior: 'install',
+    InstallerType: 'wix',
     PackageIdentifier: product.PackageIdentifier,
     PackageVersion: version.PackageVersion,
     InstallerLocale: product.PackageLocale,
     Installers: [
       {
         Architecture: 'x64',
-        InstallerType: 'wix',
         InstallerUrl: version.InstallerUrl,
         InstallerSha256: version.InstallerSha256,
         ProductCode: version.ProductCode,
+        AppsAndFeaturesEntries: [
+          { 
+            DisplayName: product.PackageName + " " + version.PackageVersion,
+            UpgradeCode: std.get(version, 'UpgradeCode', default=product.UpdateCode)
+          }
+        ]
       },
     ],
     ManifestType: 'installer',
-    ManifestVersion: '1.1.0',
+    ManifestVersion: '1.4.0',
   },
 
   Locale(product, version):: {
@@ -39,7 +45,7 @@
       Moniker: product.Moniker,
       Tags: product.Tags,
       ManifestType: 'defaultLocale',
-      ManifestVersion: '1.1.0',
+      ManifestVersion: '1.4.0',
   },
 
   Version(product, version):: {
@@ -47,7 +53,7 @@
       PackageVersion: version.PackageVersion,
       DefaultLocale: product.PackageLocale,
       ManifestType: 'version',
-      ManifestVersion: '1.1.0',
+      ManifestVersion: '1.4.0',
   },
 
   Merged(product, version):: 

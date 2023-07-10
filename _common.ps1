@@ -100,6 +100,7 @@ function Get-ProductReleases {
                             InstallerUrl = $_.browser_download_url
                             InstallerSha256 = $msi.Hashsum
                             ProductCode = $msi.ProductCode
+                            UpgradeCode = $msi.UpgradeCode
                         }
                     })
             }

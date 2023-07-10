@@ -1,3 +1,4 @@
+import hashlib
 import os
 import time
 import re
@@ -34,7 +35,7 @@ def get_id(con, cursor, table, field, value, force_new=False):
 def normalize(name):
     return name.replace(' ', '').lower()
 
-def register_manifest(con, cursor, data, pathParts, manifest, manifestFilename):
+def register_manifest(con, cursor, data, pathParts, manifest, manifestFilename, manifestHash:bytes):
     # IDS
     id_ = get_id(con, cursor, 'ids', 'id', data['PackageIdentifier'])
 
@@ -67,8 +68,8 @@ def register_manifest(con, cursor, data, pathParts, manifest, manifestFilename):
 
     # MANIFEST
     cursor.execute(
-        'INSERT INTO manifest (rowid, id, name, moniker, version, channel, pathpart) VALUES (?,?,?,?,?,?,?)',
-        (manifest, id_, name, moniker, version, 1, pathpart)
+        '''INSERT INTO manifest (rowid, id, name, moniker, version, channel, pathpart, arp_min_version, arp_max_version, hash) VALUES (?,?,?,?,?,?,?,?,?,?)''',
+        (manifest, id_, name, moniker, version, 1, pathpart, 2, 2, manifestHash)
     )
     con.commit()
 
@@ -125,6 +126,18 @@ def register_manifest(con, cursor, data, pathParts, manifest, manifestFilename):
                 (manifest, productcode)
             )
             con.commit()
+        
+        # UPGRADECODES
+        if 'UpgradeCode' in data['Installers'][0]['AppsAndFeaturesEntries'][0]:
+            upgradecode = get_id(
+                con, cursor, 'upgradecodes', 'upgradecode',
+                data['Installers'][0]['AppsAndFeaturesEntries'][0]['UpgradeCode']
+            )
+            cursor.execute(
+                'INSERT INTO upgradecodes_map (manifest, upgradecode) VALUES (?,?)',
+                (manifest, upgradecode)
+            )
+            con.commit()
 
 def create_catalog(con):
     cursor = con.cursor()
@@ -145,27 +158,33 @@ def create_catalog(con):
     con.commit()
 
     for (root,_,files) in os.walk('manifests'):
-        if re.match('.*(?:[0-9]+\.?){2,3}\.[0-9]+$', root):
+        if re.match('.*(?:[0-9]+\\.?){2,3}\\.[0-9]+$', root):
             pathParts = root.split(os.path.sep)
             packageName = ".".join(pathParts[2:-1])
             manifestFilename = ""
             packageData = {}
+            fileHash = b''
             for file in files:
                 if file.endswith(".yaml"):
-
-                    with open(os.path.join(root, file), 'r') as stream:
+                    filename = os.path.join(root, file)
+                    with open(filename, 'r') as stream:
                         try:
                             data = yaml.safe_load(stream)
                             print('processing', data['PackageIdentifier'], data['PackageVersion'])
                         except yaml.YAMLError as exc:
                             print(exc)
-
-                        if data['ManifestType'] == 'merged':
-                            packageData = data
-                            manifestFilename = file
                             break
+                    
+                    with open(filename,"rb") as f:
+                        bytes = f.read() # read entire file as bytes
+                        fileHash = hashlib.sha256(bytes).digest()
 
-            register_manifest(con, cursor, packageData, pathParts, manifest, manifestFilename)
+                    if data['ManifestType'] == 'merged':
+                        packageData = data
+                        manifestFilename = file
+                        break
+
+            register_manifest(con, cursor, packageData, pathParts, manifest, manifestFilename, fileHash)
 
             manifest += 1
 

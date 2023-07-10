@@ -51,6 +51,8 @@ CREATE TABLE IF NOT EXISTS "manifest" (
 	"version"	INT64 NOT NULL,
 	"channel"	INT64 NOT NULL,
 	"pathpart"	INT64 NOT NULL,
+	"arp_min_version"	INT64,
+	"arp_max_version"	INT64,
 	"hash"	BLOB,
 	PRIMARY KEY("rowid")
 );
@@ -119,6 +121,17 @@ DROP TABLE IF EXISTS "norm_publishers_map";
 CREATE TABLE IF NOT EXISTS "norm_publishers_map" (
 	"manifest"	INT64 NOT NULL,
 	"norm_publisher"	INT64 NOT NULL
+);
+DROP INDEX IF EXISTS "upgradecodes";
+CREATE TABLE IF NOT EXISTS "upgradecodes" (
+	"rowid"	INTEGER,
+	"upgradecode"	TEXT NOT NULL,
+	PRIMARY KEY("rowid")
+);
+DROP INDEX IF EXISTS "upgradecodes_map";
+CREATE TABLE IF NOT EXISTS "upgradecodes_map" (
+	"manifest"	INT64 NOT NULL,
+	"upgradecode"	INT64 NOT NULL
 );
 DROP INDEX IF EXISTS "manifest_id_index";
 CREATE INDEX IF NOT EXISTS "manifest_id_index" ON "manifest" (
@@ -194,11 +207,24 @@ DROP INDEX IF EXISTS "norm_publishers_map_index";
 CREATE INDEX IF NOT EXISTS "norm_publishers_map_index" ON "norm_publishers_map" (
 	"manifest"
 );
+DROP INDEX IF EXISTS "upgradecodes_pkindex";
+CREATE UNIQUE INDEX IF NOT EXISTS "upgradecodes_pkindex" ON "upgradecodes" (
+	"upgradecode"
+);
+DROP INDEX IF EXISTS "upgradecodes_map_pkindex";
+CREATE UNIQUE INDEX IF NOT EXISTS "upgradecodes_map_pkindex" ON "upgradecodes_map" (
+	"upgradecode",
+	"manifest"
+);
+DROP INDEX IF EXISTS "upgradecodes_map_index";
+CREATE INDEX IF NOT EXISTS "upgradecodes_map_index" ON "upgradecodes_map" (
+	"manifest"
+);
 COMMIT;
 
 BEGIN TRANSACTION;
 INSERT INTO "metadata" VALUES ('majorVersion','1');
-INSERT INTO "metadata" VALUES ('minorVersion','3');
+INSERT INTO "metadata" VALUES ('minorVersion','6');
 INSERT INTO "metadata" VALUES ('lastwritetime','1641996215');
 INSERT INTO "channels" VALUES (1,'');
 COMMIT;

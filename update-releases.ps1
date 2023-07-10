@@ -9,7 +9,7 @@ Get-ChildItem -Path .\packages -Filter "*.product.json" | ForEach-Object {
     "$name ($repo)" | Out-Host
 
     $assets =  Get-ProductReleases $repo | Select-Object -ExpandProperty Assets | Sort-Object -Property PackageVersionObject
-    $json_out = ($assets | Select-Object PackageVersion,InstallerUrl,InstallerSha256,ProductCode | ConvertTo-Json)
+    $json_out = ($assets | Select-Object PackageVersion,InstallerUrl,InstallerSha256,ProductCode,UpgradeCode | ConvertTo-Json)
     $json_out | Out-File -Encoding default -FilePath ".\packages\$name.releases.json"
 
     $jsonnet = @"
