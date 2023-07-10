@@ -69,7 +69,7 @@ def register_manifest(con, cursor, data, pathParts, manifest, manifestFilename, 
     # MANIFEST
     cursor.execute(
         '''INSERT INTO manifest (rowid, id, name, moniker, version, channel, pathpart, arp_min_version, arp_max_version, hash) VALUES (?,?,?,?,?,?,?,?,?,?)''',
-        (manifest, id_, name, moniker, version, 1, pathpart, 2, 2, manifestHash)
+        (manifest, id_, name, moniker, version, 1, pathpart, 1, 1, manifestHash)
     )
     con.commit()
 

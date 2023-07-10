@@ -227,4 +227,5 @@ INSERT INTO "metadata" VALUES ('majorVersion','1');
 INSERT INTO "metadata" VALUES ('minorVersion','6');
 INSERT INTO "metadata" VALUES ('lastwritetime','1641996215');
 INSERT INTO "channels" VALUES (1,'');
+INSERT INTO "versions" VALUES (1,'');
 COMMIT;
