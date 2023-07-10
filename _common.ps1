@@ -85,7 +85,8 @@ function Get-ProductReleases {
 
     @(
         Get-GithubReleases -Repo $Repo | 
-        Where-Object { (-not $_.prerelease) -or ($_.prerelease -eq $WithPrerelease) } | 
+        Where-Object { (-not $_.prerelease) -or ($_.prerelease -eq $WithPrerelease) } |
+        Where-Object { $_.name -inotmatch "deprecated" } |
         ForEach-Object {
             [pscustomobject]@{
                 Release = $_
