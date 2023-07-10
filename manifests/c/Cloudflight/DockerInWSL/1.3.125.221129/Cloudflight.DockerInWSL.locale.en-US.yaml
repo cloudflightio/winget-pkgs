@@ -2,7 +2,7 @@ Author: Cloudflight GmbH
 Copyright: Copyright (c) Cloudflight GmbH
 License: Apache2
 ManifestType: defaultLocale
-ManifestVersion: 1.1.0
+ManifestVersion: 1.4.0
 Moniker: dockerinwsl
 PackageIdentifier: Cloudflight.DockerInWSL
 PackageLocale: en-US
